@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="http://code.angularjs.org/1.0.1/angular-mocks-1.0.1.js"></script>
+		
+		<script>
+			var myapp = angular.module("employeeModule",[]);
+			
+			myapp.controller('EmployeeList',["$scope","$http", function($scope,$http){
+				$scope.sortTable = function(col) {
+				  $scope.sortOn = col;
+				};
+				
+				$http.get('employeeData').success(function(data){
+					$scope.employees = data;
+				});
+				
+			}]);
+
+			data = [{
+					"id": 1001,
+						"firstName": "Pravin",
+						"lastName": "Soawane",
+						"email": "pravinso@cybage.com"
+				}, {
+					"id": 1002,
+						"firstName": "AAAAA",
+						"lastName": "TTT",
+						"email": "a@cybage.com"
+				}, {
+					"id": 1003,
+						"firstName": "BBBB",
+						"lastName": "AAA",
+						"email": "t@cybage.com"
+				}, {
+					"id": 1004,
+						"firstName": "xxxx",
+						"lastName": "zzz",
+						"email": "xz@cybage.com"
+				}];
+
+			var ajaxmock = angular.module("ajaxmock",["employeeModule","ngMockE2E"]);
+			ajaxmock.run(function($httpBackend) {
+				$httpBackend.whenGET('employeeData').respond(data);
+			});
+		</script>
+	
+	</head>
+	
+	<body>
+		<div ng-app="ajaxmock">
+			<div ng-controller="EmployeeList">
+				<div>
+					<table border="1px">
+						<tr>
+							<th ng-click="sortTable('firstName')">First Name</th>
+							<th ng-click="sortTable('lastName')">Last Name</th>
+							<th ng-click="sortTable('email')">Email</th>
+						</tr>
+						<tr ng-repeat='emp in employees | orderBy: sortOn '>
+							<td>{{emp.firstName}}</td>
+							<td>{{emp.lastName}}</td>
+							<td>{{emp.email}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+
+</html>

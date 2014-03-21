@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script>
+			function EmployeeList($scope) {
+    			/*
+				  // Another way to sort the data..
+				  //We will have to add "| orderBy: sortOn" in ng-repeat tag.
+				  
+				  $scope.sortTable = function(col) {
+				  $scope.sortOn = col;
+				};*/
+			   
+				$scope.sortOrder = "asc";
+				$scope.sortTable = function (col) {
+					$scope.sortOrder = ($scope.sortOrder == "asc") ? "desc" : "asc";
+
+					$scope.employees.sort(function (a, b) {
+
+						if ($scope.sortOrder == "asc") {
+							if (a[col] < b[col]) return -1;
+							if (a[col] > b[col]) return 1;
+							return 0;
+						} else {
+
+
+							if (a[col] < b[col]) return 1;
+							if (a[col] > b[col]) return -1;
+							return 0;
+						}
+
+					});
+
+				}
+				
+				 $scope.filterTable = function(){
+					var regex = new RegExp($scope.searchBy, 'i');
+					$scope.employees = $scope.employeeData.filter(function(value,index,ar){  
+						return regex.test(value.firstName); 
+					});   
+				}
+
+				$scope.employees = [{
+					"id": 1001,
+						"firstName": "Pravin",
+						"lastName": "Soawane",
+						"email": "pravinso@cybage.com"
+				}, {
+					"id": 1002,
+						"firstName": "AAAAA",
+						"lastName": "TTT",
+						"email": "a@cybage.com"
+				}, {
+					"id": 1003,
+						"firstName": "BBBB",
+						"lastName": "AAA",
+						"email": "t@cybage.com"
+				}, {
+					"id": 1004,
+						"firstName": "xxxx",
+						"lastName": "zzz",
+						"email": "xz@cybage.com"
+				}]
+				// Store employee info in employeeData variable to for filtering use.
+				 $scope.employeeData = $scope.employees;
+				
+			}
+		</script>
+	
+	</head>
+	
+	<body>
+		<div ng-app>
+			<div ng-controller="EmployeeList">
+				<div>
+					Filter: <input ng-model="searchBy" ng-change="filterTable()" />
+					
+					<table border="1px">
+						<tr>
+							<th ng-click="sortTable('firstName')">First Name</th>
+							<th ng-click="sortTable('lastName')">Last Name</th>
+							<th ng-click="sortTable('email')">Email</th>
+						</tr>
+						<tr ng-repeat='emp in employees '>
+							<td>{{emp.firstName}}</td>
+							<td>{{emp.lastName}}</td>
+							<td>{{emp.email}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+
+</html>

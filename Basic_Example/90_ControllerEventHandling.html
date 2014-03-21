@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="http://code.angularjs.org/1.0.1/angular-mocks-1.0.1.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		
+		<script>
+			var app = angular.module("myApp",[]);
+			/*
+				If Parent-child relationship betn controller then use
+			$broadcast -- dispatches the event downwards to all child scopes,
+			$emit -- dispatches the event upwards through the scope hierarchy.
+
+			*/
+			function controllerP($scope){
+				$scope.onParentClick = function(){        
+				   $scope.$broadcast("parentClicked",$scope.pname);
+				},
+					
+				$scope.$on("childClicked",function(event,message){
+					$scope.listnerC = message;
+				});
+			};
+			function controllerC($scope){
+				$scope.$on("parentClicked",function(event,message){
+					$scope.nameC=message;  
+					$scope.$emit("childClicked","I got your message");
+				})      
+			};
+
+			/*
+				If No parent-child relationship betn controller then use
+			$rootScope 
+			*/
+			app.controller("controller1",["$scope","$rootScope",function($scope,$rootScope){
+
+				$rootScope.onParentClick = function(){  
+				   //alert($rootScope.pname);
+					$rootScope.$broadcast("parentClicked1",$scope.pname);
+				}
+
+			}]);
+
+
+			function controller2($scope){
+			   
+				$scope.$on("parentClicked1",function(event,message){
+				   $scope.nameC=message;  
+						  
+				})      
+			};
+
+		</script>
+	
+	</head>
+	
+	<body>
+		<div ng-app="myApp" class="container">
+			<div ng-controller="controllerP">
+				<h1>I am parent</h1>
+				<label ng-module="listnerC">{{listnerC}}</label></br>
+				<input type="text" ng-model="pname" ></input>
+				<input type="button" value="Parent" ng-click="onParentClick()" ng-model="pname" ></input>
+				<div ng-controller="controllerC">
+					<label ng-module="nameC">{{nameC}}</label>
+				</div>
+			</div>
+			
+		<!-- For no parent-shild relation betwwen controllers -->
+			<div ng-controller="controller1">
+				  <label ng-module="listnerC">{{listnerC}}</label></br>
+				  <input type="text" ng-model="pname" ></input>
+				  <input type="button" value="Parent" ng-click="onParentClick()" ng-model="pname" ></input>
+			</div>
+
+			<div ng-controller="controller2">
+					<label ng-module="nameC">{{nameC}}</label>
+			</div>
+			
+		</div>
+	</body>
+	
+
+</html>

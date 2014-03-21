@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Untitled Document</title>
+<script src="http://code.angularjs.org/1.2.5/angular.min.js"></script>
+<script>
+var app = angular.module('app', []);
+
+app.controller('MainCtrl', function($scope) {  
+  
+  $scope.isDisabled = false;
+  
+  $scope.disabledMe = function(){
+	$scope.isDisabled = true;
+  }
+  
+});
+</script>
+</head>
+
+<body ng-app="app" ng-controller="MainCtrl">
+<div>
+  <form >
+  <fieldset ng-disabled="isDisabled">
+    <label>First Name</label>
+    <input type="text"  data-ng-model="user.firstName" id="FirstName" name="FirstName" value="ruchi" ><br/>
+    <label>Last Name</label>
+    <input type="text" data-ng-model="user.lastName" id="LastName" name="LastName"><br/>
+	<fieldset>
+  </form>
+    <input type="button" value="CLICK"  ng-click="disabledMe()"/>
+	
+</div>	 
+</body>
+</html>

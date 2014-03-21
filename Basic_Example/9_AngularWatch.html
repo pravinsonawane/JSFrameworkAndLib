@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="http://code.angularjs.org/1.0.1/angular-mocks-1.0.1.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		
+		<script>
+			function Controller($scope) {
+				$scope.oldNames = [];
+				$scope.name = "";
+				$scope.$watch('name', function(newVal, oldVal) {
+					if(newVal == "Pravin")
+						alert("Hi Pravin");
+					$scope.oldNames.push({from: oldVal, to: newVal});
+				});
+			}
+		</script>
+	
+	</head>
+	
+	<body>
+		<div ng-app class="container">
+			<div ng-controller="Controller">
+				 <h1>Name: {{name}}</h1>
+
+				<input ng-model='name' />
+				<div ng-repeat='on in oldNames'>
+					Changed name from {{on.from}} to {{on.to}}
+				</div>
+			</div>
+		</div>
+	</body>
+	
+
+</html>

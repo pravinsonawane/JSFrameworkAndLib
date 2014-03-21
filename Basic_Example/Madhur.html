@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script>
+			var myApp = angular.module('myModule', []); 
+			//Where myModule is module name and [] is array of dependent modules 
+						
+			myApp.controller('mainCtrl',function($scope){
+			 
+				$scope.savePerson = function(name){
+					console.log(this.id);
+				}
+				
+			});
+		
+		</script>
+	
+	</head>
+	
+	<body ng-app="myModule">
+		<div ng-controller='mainCtrl'>
+			<Button type="submit" id="prev_btn" ng-click='savePerson(this)' >Prev</Button>
+			<Button type="submit" id="next_btn" ng-click='savePerson(this)' >Next</Button>
+		</div>	
+	</body>
+	
+
+</html>

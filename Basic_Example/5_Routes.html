@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="http://code.angularjs.org/1.0.1/angular-mocks-1.0.1.js"></script>
+		
+		<script>
+			var myModule = angular.module("myModule",[]);
+
+			myModule.config(function($routeProvider){
+				$routeProvider
+				.when('/empname/show',{templateUrl: 'view1',   controller: 'mainCtrl'})
+				.when('/empname/hide/',{templateUrl: 'view2',   controller: 'mainCtrl1'})
+				.otherwise({redirectTo: '/empname/show'});
+			   
+			});
+
+			myModule.controller('mainCtrl',function($scope){
+			  
+				$scope.username="ABC";
+
+			});
+			myModule.controller('mainCtrl1',function($scope){
+				
+				$scope.username="XYZ";
+
+			});
+		</script>
+	
+	</head>
+	
+	<body>
+		<div ng-app="myModule">
+			<div ng-view></div>
+			
+			<div>
+			   <a href="#/empname/show" >Start</a>
+			</div>
+			
+			<script type='text/ng-template' id='view1'> Hello   
+				{{username}}
+				<a href="#/empname/hide" >Say Bye</a>
+			</script>
+			
+			<script type='text/ng-template' id='view2'> Bye   
+				{{username}}
+				 <a href="#/empname/show" >Say Hi</a>
+			</script>
+			
+		</div>
+	</body>
+	
+
+</html>

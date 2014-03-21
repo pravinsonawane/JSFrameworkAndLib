@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="http://code.angularjs.org/1.0.1/angular-mocks-1.0.1.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		
+		<script>
+			var myApp = angular.module("myModule", []);
+
+			myApp.filter("inwords", function () {
+				return function (input, caps) {
+					var monthV = input.toString().split('/');
+					var map = {
+						"01": "Jan",
+						"02": "Feb",
+						"03": "March",
+						"04": "April",
+						"05": "May",
+						"06": "June",
+						"07": "July",
+						"08": "August",
+						"09": "September",
+						"10": "October",
+						"11": "November",
+						"12": "December"
+					};
+					var str = "";
+					str = monthV[0] + " " + map[monthV[1]] + " " + monthV[2];
+					return str;
+				}
+
+			});
+			myApp.controller("EmployeeList", function ($scope) {
+
+
+				$scope.employees = [{
+					"id": 1001,
+						"firstName": "Pravin",
+						"lastName": "Soawane",
+						"email": "pravinso@cybage.com",
+						"DOB": "09/12/1983"
+				}, {
+					"id": 1002,
+						"firstName": "AAAAA",
+						"lastName": "TTT",
+						"email": "a@cybage.com",
+						"DOB": "12/08/1990"
+				}, {
+					"id": 1003,
+						"firstName": "BBBB",
+						"lastName": "AAA",
+						"email": "t@cybage.com",
+						"DOB": "1/01/1980"
+				}, {
+					"id": 1004,
+						"firstName": "xxxx",
+						"lastName": "zzz",
+						"email": "xz@cybage.com",
+						"DOB": "29/05/2000"
+				}]
+
+			});
+
+
+		</script>
+	
+	</head>
+	
+	<body>
+		<div ng-app="myModule">
+			<div ng-controller="EmployeeList">
+				<div>
+					<table class="table table-bordered table-hover">
+						<tr>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>DOB</th>
+						</tr>
+						<tr ng-repeat='emp in employees '>
+							<td>{{emp.firstName}}</td>
+							<td>{{emp.lastName}}</td>
+							<td>{{emp.email}}</td>
+							<td>{{emp.DOB | inwords}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+
+</html>

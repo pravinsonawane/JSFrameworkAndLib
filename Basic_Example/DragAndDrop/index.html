@@ -1,0 +1,65 @@
+<!DOCTYPE html >
+<html ng-app="searchModule">
+<head>
+	
+	<title>Drag And Drop [Angular]</title>
+		
+	<!--script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script-->
+	
+	<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+	<script src="angular.min.js"></script>	
+	<script src="app.js"></script>
+	<script src="dragAndDrop.js"></script>
+	<script src="uuid.js"></script>
+	
+	<style>
+			.lvl-over {
+				/* applied to a drop target when a draggable object is over it */
+				border: 2px dashed black !important;
+			}
+
+			.lvl-target {
+				/* 
+				applied to all drop targets when a drag operation begins 
+				removed when the drag operation ends
+				used to indicate drop targets on a page 
+				*/
+				background-color: #ddd;
+				opacity: .5;
+			}
+
+			[draggable] {
+				/* not applied by the directive, but useful to indicate a draggable element */
+				-moz-user-select: none;
+				-khtml-user-select: none;
+				-webkit-user-select: none;
+				user-select: none;
+				cursor: move;
+				border:1px solid black;
+			}
+		</style>
+</head>
+<body>
+
+	<div ng-controller="ddController" style="margin-top:50px;">
+			<div class="row">
+				<div class="col-md-1 col-md-offset-1">
+					<p>Click and drag a color onto the grid to the right</p>
+					<div class="peg green" x-lvl-draggable="true" data-color="green">Green</div>
+					<div class="peg red" x-lvl-draggable="true" data-color="red">Red</div>
+					<div class="peg blue" x-lvl-draggable="true" data-color="blue">Blue</div>
+					<div class="peg black" x-lvl-draggable="true" data-color="black">Black</div>
+					<div class="peg grey" x-lvl-draggable="true" data-color="grey">Grey</div>
+				</div>
+					
+				<div class="col-md-5" style="border:1px solid red;width:100px;height:100px" 
+						x-lvl-drop-target="true" x-on-drop="dropped(dragEl, dropEl)">
+					
+				</div>
+			</div>
+		</div>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="http://code.angularjs.org/1.0.1/angular-mocks-1.0.1.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		
+		<style>
+			.border{
+			   border: 2px solid black;
+			}
+			
+			.backColor{
+				background-color: red;
+			}
+			
+			.inline{
+				display:inline;
+			}
+		</style>
+		<script>
+			var myApp = angular.module("myModule", []);
+
+		</script>
+		
+	
+	</head>
+	
+	<body>
+		<div ng-app="myModule">
+			<div ng-class="{border:check,backColor:bgcolor}">
+					Testing Angular CSS
+			</div>
+			
+			<input type="checkbox" ng-model="check"> Border </input>
+			<input type="checkbox" ng-model="bgcolor"> Backgroud color </input>
+			
+			<div ng-class="['border', style2, style3]">
+					Testing Angular CSS -----------------
+			</div>
+			<div>
+			
+			<input ng-model="style2" placeholder="Type: border, backColor or inline"><br>
+			<input ng-model="style3" placeholder="Type: border, backColor or inline"><br>
+			</div>
+			
+		</div>
+	</body>
+	
+
+</html>

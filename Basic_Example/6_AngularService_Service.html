@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="http://code.angularjs.org/1.0.1/angular-mocks-1.0.1.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		
+		<script>
+			var myapp = angular.module("employeeModule",[]);
+
+			myapp.service('empData',['$http',function(ajax){
+				var _url = 'employeeData/';
+				function _getEmployeeData(param, callback){
+					ajax.get(_url+param).success(function(data){
+						callback(data);
+					});
+				};
+			   
+				this.getemployeeList=function(callback){
+					_getEmployeeData('all',callback);   
+				};
+				this.deleteemployee=function(id,callback){
+				   
+					ajax.delete(_url+id,callback).success(function(data) {
+						callback(data);
+					});   
+				} 
+				
+			 } ]);
+
+
+			myapp.controller('EmployeeList',["$scope","empData", function($scope,empData){
+				$scope.sortTable = function(col) {
+				  $scope.sortOn = col;
+				};
+				empData.getemployeeList(function(data){
+					$scope.employees = data;
+				});
+				$scope.deleteRow = function(id){
+					empData.deleteemployee(id,function(data){
+						
+					});     
+				}  
+			}]);
+
+			data = [{
+					"id": 1001,
+						"firstName": "Pravin",
+						"lastName": "Soawane",
+						"email": "pravinso@cybage.com"
+				}, {
+					"id": 1002,
+						"firstName": "AAAAA",
+						"lastName": "TTT",
+						"email": "a@cybage.com"
+				}, {
+					"id": 1003,
+						"firstName": "BBBB",
+						"lastName": "AAA",
+						"email": "t@cybage.com"
+				}, {
+					"id": 1004,
+						"firstName": "xxxx",
+						"lastName": "zzz",
+						"email": "xz@cybage.com"
+				}];
+
+			var ajaxmock = angular.module("ajaxmock",["employeeModule","ngMockE2E"]);
+			ajaxmock.run(function($httpBackend) {
+				$httpBackend.whenGET('employeeData/all').respond(data);
+				$httpBackend.whenDELETE(/employeeData(\/\d+)/).respond(function(m, url, g, headers) {
+						
+					  var id  = url.replace('/api/employee', "").split("/")[1]
+					  , idx = id - 1001;
+
+					data.splice(idx, 1);
+					return [200, {success: true}];
+				});
+			});
+		</script>
+	
+	</head>
+	
+	<body>
+		<div ng-app="ajaxmock">
+			<div ng-controller="EmployeeList">
+				<div class="table-responsive" >
+					<table class="table table-hover table-bordered ">
+						<tr>
+							<th  ng-click="sortTable('firstName')">First Name</th>
+							<th ng-click="sortTable('lastName')">Last Name</th>
+							<th ng-click="sortTable('email')">Email</th>
+							<th >DELETE</th>
+						</tr>
+						<tr ng-repeat='emp in employees | orderBy: sortOn '>
+							<td >{{emp.firstName}}</td>
+							<td>{{emp.lastName}}</td>
+							<td>{{emp.email}}</td>
+							<td >
+							  <a ng-click="deleteRow(emp.id)">Delete</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+
+</html>
